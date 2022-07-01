@@ -2,11 +2,16 @@ import express, { Application, Request, Response } from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
 import RateLimit from 'express-rate-limit'
-import * as dotenv from 'dotenv'
+import errorMiddleware from './middleware/error.middleware'
+import config from './config'
+import db from './database'
 
-dotenv.config()
+console.log(config)
+// import * as dotenv from 'dotenv'
 
-const PORT = process.env.PORT || 3000
+// dotenv.config()
+
+const PORT = config.port || 3000
 // create an instance server
 const app: Application = express()
 //middleware to parse incoming requests
@@ -26,6 +31,20 @@ app.use(
     message: 'Too many requests, please try again in 15 mins '
   })
 )
+// test db
+db.connect().then((client) => {
+  return client
+    .query('SELECT NOW()')
+    .then((res) => {
+      client.release()
+      console.log(res.rows)
+    })
+    .catch((err) => {
+      client.release()
+      console.log(err.stack)
+    })
+})
+app.use(errorMiddleware)
 // add routing for / path
 app.get('/', (req: Request, res: Response) => {
   res.json({
