@@ -1,4 +1,4 @@
-# Storefront Backend Project
+# SHOPLY - Storefront Backend Project
 
 ## Getting Started
 
