@@ -5,7 +5,7 @@ import RateLimit from 'express-rate-limit'
 import errorMiddleware from './middleware/error.middleware'
 import config from './config'
 import db from './database'
-
+import routes from './routes'
 console.log(config)
 // import * as dotenv from 'dotenv'
 
@@ -45,6 +45,8 @@ db.connect().then((client) => {
     })
 })
 app.use(errorMiddleware)
+
+app.use('/api', routes)
 // add routing for / path
 app.get('/', (req: Request, res: Response) => {
   res.json({
