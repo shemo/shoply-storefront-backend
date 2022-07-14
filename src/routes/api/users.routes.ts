@@ -1,8 +1,10 @@
 import { Router } from 'express'
 import * as controllers from '../../controllers/users.controllers'
+import authenticationMiddleware from '../../middleware/authentication.middleware'
+
 const routes = Router()
 
-routes.route('/').get(controllers.getUsers).post(controllers.create)
+routes.route('/').get(authenticationMiddleware, controllers.getUsers).post(controllers.create)
 routes
   .route('/:id')
   .get(controllers.getUser)
