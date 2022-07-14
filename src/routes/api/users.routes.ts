@@ -9,4 +9,6 @@ routes
   .patch(controllers.updateUser)
   .delete(controllers.deleteUser)
 
+// auth
+routes.route('/auth').post(controllers.authenticate)
 export default routes

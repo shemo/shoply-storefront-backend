@@ -12,7 +12,8 @@ const {
   POSTGRES_USER,
   POSTGRES_PASSWORD,
   BCRYPT_PASSWORD,
-  SALT_ROUNDS
+  SALT_ROUNDS,
+  TOKEN_SECRET
 } = process.env
 
 export default {
@@ -23,5 +24,6 @@ export default {
   user: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   pepper: BCRYPT_PASSWORD,
-  salt: SALT_ROUNDS
+  salt: SALT_ROUNDS,
+  tokenSecret: TOKEN_SECRET
 }
