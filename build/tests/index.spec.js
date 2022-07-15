@@ -44,7 +44,7 @@ var index_1 = __importDefault(require("../index"));
 // create a request object
 var request = (0, supertest_1.default)(index_1.default);
 describe('Test endpoint response', function () {
-    it('test hello world endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
+    it('Get the / endpoint', function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {

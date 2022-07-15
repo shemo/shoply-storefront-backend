@@ -10,6 +10,7 @@ var express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 var error_middleware_1 = __importDefault(require("./middleware/error.middleware"));
 var config_1 = __importDefault(require("./config"));
 var database_1 = __importDefault(require("./database"));
+var routes_1 = __importDefault(require("./routes"));
 console.log(config_1.default);
 // import * as dotenv from 'dotenv'
 // dotenv.config()
@@ -44,6 +45,7 @@ database_1.default.connect().then(function (client) {
     });
 });
 app.use(error_middleware_1.default);
+app.use('/api', routes_1.default);
 // add routing for / path
 app.get('/', function (req, res) {
     res.json({
