@@ -29,10 +29,10 @@ describe('Product API endpoints', () => {
   } as User
 
   beforeAll(async () => {
-    const createdProduct = await productModel.create(product)
-    product.id = createdProduct.id
     const createdUser = await userModel.create(user)
     user.id = createdUser.id
+    const createdProduct = await productModel.create(product)
+    product.id = createdProduct.id
   })
 
   afterAll(async () => {
