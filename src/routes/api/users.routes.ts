@@ -7,9 +7,9 @@ const routes = Router()
 routes.route('/').get(authenticationMiddleware, controllers.getUsers).post(controllers.create)
 routes
   .route('/:id')
-  .get(controllers.getUser)
-  .patch(controllers.updateUser)
-  .delete(controllers.deleteUser)
+  .get(authenticationMiddleware, controllers.getUser)
+  .patch(authenticationMiddleware, controllers.updateUser)
+  .delete(authenticationMiddleware, controllers.deleteUser)
 
 // auth
 routes.route('/auth').post(controllers.authenticate)
