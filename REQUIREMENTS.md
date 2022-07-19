@@ -1,50 +1,91 @@
-# API Requirements
+# SHOPLY
 
-The company stakeholders want to create an online storefront to showcase their great product ideas. Users need to be able to browse an index of all products, see the specifics of a single product, and add products to an order that they can view in a cart page. You have been tasked with building the API that will support this application, and your coworker is building the frontend.
+## _Storefront Api_
 
-These are the notes from a meeting with the frontend developer that describe what endpoints the API needs to supply, as well as data shapes the frontend and backend have agreed meet the requirements of the application.
+> **Table of content**
 
-## API Endpoints
+- [API End points](#-api-routes)
+  - [`Users routes`](#-users-route 'Users Routes')
+  - [`Products routes`](#-products-route 'Products Routes')
+  - [`Orders routes`](#-orders-route 'Orders Routes')
+- [Database schema](#-database-schema)
+  - [`users Schema`](#-users-table 'Database table users schema')
+  - [`products Schema`](#-products-table 'Database table products schema')
+  - [`orders Schema`](#-orders-table 'Database table orders schema')
+  - [`order_products Schema`](#-order-products-table 'Database orders_products schema')
 
-#### Products
+# Project Information
 
-- Index
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
+## API Routes
 
-#### Users
+## Users Route
 
-- Index [token required]
-- Show [token required]
-- Create N[token required]
+| Route            |  Methods   | Description                           | Requirements      | Request Body Example                                                                                                   |
+| ---------------- | :--------: | ------------------------------------- | ----------------- | :--------------------------------------------------------------------------------------------------------------------- |
+| **`/users`**     |  `[GET]`   | **Index** of users with users list,   | User token        | -                                                                                                                      |
+| **`/users/:id`** |  `[GET]`   | **Show** single user using _[**id**]_ | User token        | `id`                                                                                                                   |
+| **`/users`**     |  `[POST]`  | **Create** a new user                 | No token required | `{"email": "shimaa@test.com", "user_name": "shimaa""first_name": "shimaa", "last_name": "adel", "password": "123456"}` |
+| **`/users/:id`** | `[PATCH]`  | **Update** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
+| **`/users/:id`** | `[DELETE]` | **delete** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
 
-#### Orders
+## Products Route
 
-- Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
+| Route               | Methods  | Description                               | Requirements | Request Body Example                                                                                 |
+| ------------------- | :------: | ----------------------------------------- | ------------ | ---------------------------------------------------------------------------------------------------- |
+| **`/products`**     | `[GET]`  | **Index** of products with products list, | User token   | -                                                                                                    |
+| **`/products/:id`** | `[GET]`  | **Show** single product using _[**id**]_  | User token   | `id`                                                                                                 |
+| **`/products`**     | `[POST]` | **Create** a new product                  | User token   | `{ "name": "product 1","description": "product 1 description","price": 50,"category": "essentials"}` |
 
-## Data Shapes
+## Orders Route
 
-#### Product
+| Route             | Methods  | Description                            | Requirements | Request Body Example                                                                    |
+| ----------------- | :------: | -------------------------------------- | ------------ | --------------------------------------------------------------------------------------- |
+| **`/orders`**     | `[GET]`  | **Index** of orders with orders list   | User token   | -                                                                                       |
+| **`/orders/:id`** | `[GET]`  | **Show** single order using _[**id**]_ | User token   | `id`                                                                                    |
+| **`/orders`**     | `[POST]` | **Make** a new order                   | User token   | `{"user_id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6", "status": "active","quantity": 5}` |
 
-- id
-- name
-- price
-- [OPTIONAL] category
+## Database schema
 
-#### User
+## Users table
 
-- id
-- firstName
-- lastName
-- password
+| Column name      |   Data Type    | Constraints     | References |
+| ---------------- | :------------: | --------------- | ---------- |
+| **`id`**         |     `uuid`     | **PRIMARY KEY** | -          |
+| **`email`**      | `VARCHAR(50)`  | **_UNIQUE_**    | -          |
+| **`user_name`**  | `VARCHAR(50)`  | **NOT NULL**    | -          |
+| **`first_name`** | `VARCHAR(25)`  | **NOT NULL**    | -          |
+| **`last_name`**  | `VARCHAR(25)`  | **NOT NULL**    | -          |
+| **`password`**   | `VARCHAR(255)` | **NOT NULL**    | -          |
 
-#### Orders
+## Products table
 
-- id
-- id of each product in the order
-- quantity of each product in the order
-- user_id
-- status of order (active or complete)
+| Column name       |   Data Type    | Constraints               | References |
+| ----------------- | :------------: | ------------------------- | ---------- |
+| **`id`**          |     `uuid`     | **PRIMARY KEY**           | -          |
+| **`name`**        | `VARCHAR(50)`  | **NOT NULL** , **UNIQUE** | -          |
+| **`description`** | `VARCHAR(255)` | **NOT NULL**              | -          |
+| **`price`**       |     `INT`      | **NOT NULL**              | -          |
+| **`category`**    | `VARCHAR(50)`  |                           | -          |
+
+## Orders table
+
+| Column name    |   Data Type   | Constraints     | References                                             |
+| -------------- | :-----------: | --------------- | ------------------------------------------------------ |
+| **`id`**       |    `uuid`     | **PRIMARY KEY** | -                                                      |
+| **`user_id`**  |    `uuid`     |                 | **users(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE ) |
+| **`status`**   | `VARCHAR(50)` |                 | -                                                      |
+| **`quantity`** |     `INT`     | **NOT NULL**    | -                                                      |
+
+## Order products table
+
+| Column name      | Data Type | Constraints               | References                                               |
+| ---------------- | :-------: | ------------------------- | -------------------------------------------------------- |
+| **`id`**         |  `uuid`   | **PRIMARY KEY**           | -                                                        |
+| **`order_id`**   |  `uuid`   | **NOT NULL** , **UNIQUE** | **orders(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE)   |
+| **`product_id`** |  `uuid`   | **NOT NULL**              | **products(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE) |
+| **`price`**      |   `INT`   | **NOT NULL**              | -                                                        |
+
+## License
+
+MIT
+**Shimaa Adel | UDACITY**
