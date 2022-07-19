@@ -20,13 +20,14 @@
 
 ## Users Route
 
-| Route            |  Methods   | Description                           | Requirements      | Request Body Example                                                                                                   |
-| ---------------- | :--------: | ------------------------------------- | ----------------- | :--------------------------------------------------------------------------------------------------------------------- |
-| **`/users`**     |  `[GET]`   | **Index** of users with users list,   | User token        | -                                                                                                                      |
-| **`/users/:id`** |  `[GET]`   | **Show** single user using _[**id**]_ | User token        | `id`                                                                                                                   |
-| **`/users`**     |  `[POST]`  | **Create** a new user                 | No token required | `{"email": "shimaa@test.com", "user_name": "shimaa""first_name": "shimaa", "last_name": "adel", "password": "123456"}` |
-| **`/users/:id`** | `[PATCH]`  | **Update** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
-| **`/users/:id`** | `[DELETE]` | **delete** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
+| Route             |  Methods   | Description                           | Requirements      | Request Body Example                                                                                                   |
+| ----------------- | :--------: | ------------------------------------- | ----------------- | :--------------------------------------------------------------------------------------------------------------------- |
+| **`/users`**      |  `[GET]`   | **Index** of users with users list,   | User token        | -                                                                                                                      |
+| **`/users/:id`**  |  `[GET]`   | **Show** single user using _[**id**]_ | User token        | `id`                                                                                                                   |
+| **`/users/auth`** |  `[POST]`  | **Authenticate** a user               | No token required | `{"email": "shimaa@test.com", "password": "123456"}`                                                                   |
+| **`/users`**      |  `[POST]`  | **Create** a new user                 | No token required | `{"email": "shimaa@test.com", "user_name": "shimaa""first_name": "shimaa", "last_name": "adel", "password": "123456"}` |
+| **`/users/:id`**  | `[PATCH]`  | **Update** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
+| **`/users/:id`**  | `[DELETE]` | **delete** a user                     | User token        | `{"id": "39f98a9c-2661-46df-b067-7ad2ed5a94d6"}`                                                                       |
 
 ## Products Route
 
