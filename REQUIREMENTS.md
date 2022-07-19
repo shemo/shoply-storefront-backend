@@ -73,18 +73,18 @@
 | Column name    |   Data Type   | Constraints     | References                                             |
 | -------------- | :-----------: | --------------- | ------------------------------------------------------ |
 | **`id`**       |    `uuid`     | **PRIMARY KEY** | -                                                      |
-| **`user_id`**  |    `uuid`     |                 | **users(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE ) |
+| **`user_id`**  |    `uuid`     | **NOT NULL**    | **users(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE ) |
 | **`status`**   | `VARCHAR(50)` |                 | -                                                      |
 | **`quantity`** |     `INT`     | **NOT NULL**    | -                                                      |
 
 ## Order products table
 
-| Column name      | Data Type | Constraints               | References                                               |
-| ---------------- | :-------: | ------------------------- | -------------------------------------------------------- |
-| **`id`**         |  `uuid`   | **PRIMARY KEY**           | -                                                        |
-| **`order_id`**   |  `uuid`   | **NOT NULL** , **UNIQUE** | **orders(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE)   |
-| **`product_id`** |  `uuid`   | **NOT NULL**              | **products(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE) |
-| **`price`**      |   `INT`   | **NOT NULL**              | -                                                        |
+| Column name      | Data Type | Constraints     | References                                               |
+| ---------------- | :-------: | --------------- | -------------------------------------------------------- |
+| **`id`**         |  `uuid`   | **PRIMARY KEY** | -                                                        |
+| **`order_id`**   |  `uuid`   | **NOT NULL**    | **orders(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE)   |
+| **`product_id`** |  `uuid`   | **NOT NULL**    | **products(id)**, **FOREIGN KEY** ( ON _DELETE_ CASCADE) |
+| **`price`**      |   `INT`   | **NOT NULL**    | -                                                        |
 
 ## License
 
