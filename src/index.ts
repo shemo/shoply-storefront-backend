@@ -49,9 +49,10 @@ app.use(errorMiddleware)
 app.use('/api', routes)
 // add routing for / path
 app.get('/', (req: Request, res: Response) => {
-  res.json({
-    message: 'Hello World 🌍'
-  })
+  // res.json({
+  //   message: 'Welcome To SHOPLY, Your Storefront API'
+  // })
+  res.send('Welcome To SHOPLY, Your Storefront API')
 })
 
 // start express server

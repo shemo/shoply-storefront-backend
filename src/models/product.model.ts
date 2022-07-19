@@ -20,7 +20,7 @@ class ProductModel {
     }
   }
   // get all Products
-  async getProducts(): Promise<Product[]> {
+  async index(): Promise<Product[]> {
     try {
       const connection = await db.connect()
       const sql = 'SELECT id, name, description, price, category from products'
@@ -32,7 +32,7 @@ class ProductModel {
     }
   }
   // get single Product
-  async getProduct(id: string): Promise<Product> {
+  async show(id: string): Promise<Product> {
     try {
       const connection = await db.connect()
       const sql = 'SELECT id, name, description, price, category from products WHERE id=($1)'
@@ -44,7 +44,7 @@ class ProductModel {
     }
   }
   // update Product
-  async updateProduct(p: Product): Promise<Product> {
+  async update(p: Product): Promise<Product> {
     try {
       const connection = await db.connect()
       const sql = `UPDATE products SET name = ($1) ,description= ($2) , price= ($3) , category = ($4) WHERE id = ($5) RETURNING *`
@@ -56,7 +56,7 @@ class ProductModel {
     }
   }
   // delete Product
-  async deleteProduct(id: string): Promise<Product> {
+  async destroy(id: string): Promise<Product> {
     try {
       const connection = await db.connect()
       const sql = `DELETE from products WHERE id=($1) RETURNING id, name, description, price, category`

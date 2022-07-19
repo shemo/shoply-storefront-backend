@@ -17,9 +17,9 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
   }
 }
 
-export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
+export const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await userModel.getUsers()
+    const users = await userModel.index()
     res.json({
       status: 'success',
       data: users,
@@ -30,9 +30,9 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
   }
 }
 
-export const getUser = async (req: Request, res: Response, next: NextFunction) => {
+export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userModel.getUser(req.params.id as unknown as string)
+    const user = await userModel.show(req.params.id as unknown as string)
     res.json({
       status: 'success',
       data: user,
@@ -43,9 +43,9 @@ export const getUser = async (req: Request, res: Response, next: NextFunction) =
   }
 }
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+export const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userModel.updateUser(req.body)
+    const user = await userModel.update(req.body)
     res.json({
       status: 'success',
       data: user,
@@ -56,9 +56,9 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 }
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
+export const destroy = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userModel.deleteUser(req.params.id as unknown as string)
+    const user = await userModel.destroy(req.params.id as unknown as string)
     res.json({
       status: 'success',
       data: user,

@@ -1,24 +1,22 @@
 import supertest from 'supertest'
 import db from '../../database'
-import ProductModel from '../../models/product.model'
-import Product from '../../types/product.type'
+import OrderModel from '../../models/order.model'
+import Order from '../../types/order.type'
 import UserModel from '../../models/user.model'
 import User from '../../types/user.type'
 import app from '../../index'
 
-const productModel = new ProductModel()
+const orderModel = new OrderModel()
 const userModel = new UserModel()
 // create a request object
 const request = supertest(app)
 let token: string
 
-describe('Product API endpoints', () => {
-  const product = {
-    name: 'test product',
-    description: 'Test product description',
-    price: 20,
-    category: 'test category name'
-  } as Product
+describe('Order API endpoints', () => {
+  const order = {
+    quantity: 2,
+    status: 'pending'
+  } as Order
 
   const user = {
     email: 'test@test.com',
@@ -31,19 +29,20 @@ describe('Product API endpoints', () => {
   beforeAll(async () => {
     const createdUser = await userModel.create(user)
     user.id = createdUser.id
-    const createdProduct = await productModel.create(product)
-    product.id = createdProduct.id
+    order.user_id = user.id as string
+    const createdOrder = await orderModel.create(order)
+    order.id = createdOrder.id
   })
 
   afterAll(async () => {
     const connection = await db.connect()
-    const sql1 = 'DELETE FROM products;'
+    const sql1 = 'DELETE FROM orders;'
     const sql2 = 'DELETE FROM users;'
     await connection.query(sql1)
     await connection.query(sql2)
     connection.release()
   })
-  describe('Test Auth On Products route', () => {
+  describe('Test Auth On Orders route', () => {
     it('should authenticate and return token', async () => {
       const response = await request
         .post('/api/users/auth')
@@ -66,69 +65,64 @@ describe('Product API endpoints', () => {
     })
   })
   describe('Test CRUD Operations', () => {
-    it('should create new product', async () => {
+    it('should create new order', async () => {
       const response = await request
-        .post('/api/products')
+        .post('/api/orders')
         .set('Content-type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          name: 'test product 2',
-          description: 'Test product 2 description',
-          price: 40,
-          category: 'test 2 category name'
-        } as Product)
+          user_id: user.id,
+          quantity: 4,
+          status: 'delivered'
+        } as Order)
 
       expect(response.status).toBe(200)
-      const { name, description, price, category } = response.body.data
-      expect(name).toBe('test product 2')
-      expect(description).toBe('Test product 2 description')
-      expect(price).toBe(40)
-      expect(category).toBe('test 2 category name')
+      const { user_id, quantity, status } = response.body.data
+      expect(user_id).toBe(user.id)
+      expect(quantity).toBe(4)
+      expect(status).toBe('delivered')
     })
-    it('should retrieve all products', async () => {
+    it('should retrieve all Orders', async () => {
       const response = await request
-        .get('/api/products')
+        .get('/api/orders')
         .set('Content-type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
       expect(response.status).toBe(200)
       expect(response.body.data.length).toBe(2)
     })
-    it('should get single product info', async () => {
+    it('should get single Order info', async () => {
       const response = await request
-        .get(`/api/products/${product.id}`)
+        .get(`/api/orders/${order.id}`)
         .set('Content-type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
       expect(response.status).toBe(200)
-      expect(response.body.data.name).toBe('test product')
-      expect(response.body.data.price).toBe(20)
+      expect(response.body.data.quantity).toBe(2)
+      expect(response.body.data.status).toBe('pending')
     })
-    it('should update product', async () => {
+    it('should update Order', async () => {
       const response = await request
-        .patch(`/api/products/${product.id}`)
+        .patch(`/api/orders/${order.id}`)
         .set('Content-type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          ...product,
-          name: 'test product edit',
-          price: 45,
-          category: 'category edit'
-        } as Product)
+          ...order,
+          quantity: 3,
+          status: 'delivered'
+        } as Order)
       expect(response.status).toBe(200)
-      const { id, name, description, price, category } = response.body.data
-      expect(id).toBe(product.id)
-      expect(name).toBe('test product edit')
-      expect(description).toBe(product.description)
-      expect(price).toBe(45)
-      expect(category).toBe('category edit')
+      const { id, user_id, quantity, status } = response.body.data
+      expect(id).toBe(order.id)
+      expect(user_id).toBe(order.user_id)
+      expect(quantity).toBe(3)
+      expect(status).toBe('delivered')
     })
-    it('should delete product', async () => {
+    it('should delete Order', async () => {
       const response = await request
-        .delete(`/api/products/${product.id}`)
+        .delete(`/api/orders/${order.id}`)
         .set('Content-type', 'application/json')
         .set('Authorization', `Bearer ${token}`)
       expect(response.status).toBe(200)
-      expect(response.body.data.id).toBe(product.id)
-      expect(response.body.data.name).toBe('test product edit')
+      expect(response.body.data.id).toBe(order.id)
     })
   })
 })

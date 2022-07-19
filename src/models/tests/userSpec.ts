@@ -7,19 +7,19 @@ const userModel = new UserModel()
 describe('User Model', () => {
   describe('Test method exists', () => {
     it('should have get all  users', () => {
-      expect(userModel.getUsers).toBeDefined()
+      expect(userModel.index).toBeDefined()
     })
     it('should have get single  user', () => {
-      expect(userModel.getUser).toBeDefined()
+      expect(userModel.show).toBeDefined()
     })
     it('should have create new user', () => {
       expect(userModel.create).toBeDefined()
     })
     it('should have update user', () => {
-      expect(userModel.updateUser).toBeDefined()
+      expect(userModel.update).toBeDefined()
     })
     it('should have delete user', () => {
-      expect(userModel.deleteUser).toBeDefined()
+      expect(userModel.destroy).toBeDefined()
     })
   })
 
@@ -61,11 +61,11 @@ describe('User Model', () => {
       } as User)
     })
     it('Get all users should return all available users', async () => {
-      const users = await userModel.getUsers()
+      const users = await userModel.index()
       expect(users.length).toBe(2)
     })
     it('Get single user should return user details', async () => {
-      const returnedUser = await userModel.getUser(user.id as string)
+      const returnedUser = await userModel.show(user.id as string)
       expect(returnedUser.id).toBe(user.id)
       expect(returnedUser.email).toBe(user.email)
       expect(returnedUser.user_name).toBe(user.user_name)
@@ -74,7 +74,7 @@ describe('User Model', () => {
     })
 
     it('Update single user should return user updated details', async () => {
-      const updatedUser = await userModel.updateUser({
+      const updatedUser = await userModel.update({
         ...user,
         user_name: 'testUserUpdate',
         first_name: 'shimaa',
@@ -87,7 +87,7 @@ describe('User Model', () => {
       expect(updatedUser.last_name).toBe('adel')
     })
     it('Delete user should delete user from database', async () => {
-      const deletedUser = await userModel.deleteUser(user.id as string)
+      const deletedUser = await userModel.destroy(user.id as string)
       expect(deletedUser.id).toBe(user.id)
     })
   })

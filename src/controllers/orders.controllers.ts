@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
-import ProductModel from '../models/product.model'
+import OrderModel from '../models/order.model'
 
-const productModel = new ProductModel()
+const orderModel = new OrderModel()
 export const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await productModel.create(req.body)
+    const order = await orderModel.create(req.body)
     res.json({
       status: 'success',
-      data: { ...product },
-      message: 'Product Created Successfully'
+      data: { ...order },
+      message: 'Order Created Successfully'
     })
   } catch (error) {
     next(error)
@@ -17,11 +17,11 @@ export const create = async (req: Request, res: Response, next: NextFunction) =>
 
 export const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const products = await productModel.index()
+    const orders = await orderModel.index()
     res.json({
       status: 'success',
-      data: products,
-      message: 'Products retrieved Successfully'
+      data: orders,
+      message: 'Orders retrieved Successfully'
     })
   } catch (error) {
     next(error)
@@ -30,11 +30,11 @@ export const index = async (req: Request, res: Response, next: NextFunction) => 
 
 export const show = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await productModel.show(req.params.id as unknown as string)
+    const order = await orderModel.show(req.params.id as unknown as string)
     res.json({
       status: 'success',
-      data: product,
-      message: 'Product retrieved Successfully'
+      data: order,
+      message: 'Order retrieved Successfully'
     })
   } catch (error) {
     next(error)
@@ -43,11 +43,11 @@ export const show = async (req: Request, res: Response, next: NextFunction) => {
 
 export const update = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await productModel.update(req.body)
+    const order = await orderModel.update(req.body)
     res.json({
       status: 'success',
-      data: product,
-      message: 'Product updated Successfully'
+      data: order,
+      message: 'Order updated Successfully'
     })
   } catch (error) {
     next(error)
@@ -56,11 +56,11 @@ export const update = async (req: Request, res: Response, next: NextFunction) =>
 
 export const destroy = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const product = await productModel.destroy(req.params.id as unknown as string)
+    const order = await orderModel.destroy(req.params.id as unknown as string)
     res.json({
       status: 'success',
-      data: product,
-      message: 'Product deleted Successfully'
+      data: order,
+      message: 'Order deleted Successfully'
     })
   } catch (error) {
     next(error)

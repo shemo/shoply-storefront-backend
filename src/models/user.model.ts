@@ -33,7 +33,7 @@ class UserModel {
     }
   }
   // get all users
-  async getUsers(): Promise<User[]> {
+  async index(): Promise<User[]> {
     try {
       const connection = await db.connect()
       const sql = 'SELECT id, email, user_name, first_name, last_name from users'
@@ -45,7 +45,7 @@ class UserModel {
     }
   }
   // get single user
-  async getUser(id: string): Promise<User> {
+  async show(id: string): Promise<User> {
     try {
       const connection = await db.connect()
       const sql = 'SELECT id, email, user_name, first_name, last_name from users WHERE id=($1)'
@@ -57,7 +57,7 @@ class UserModel {
     }
   }
   // update user
-  async updateUser(u: User): Promise<User> {
+  async update(u: User): Promise<User> {
     try {
       const connection = await db.connect()
       const sql = `UPDATE users SET email=$1, user_name=$2, first_name=$3, last_name=$4, password=$5 WHERE id=$6 RETURNING id, email, user_name, first_name, last_name`
@@ -76,7 +76,7 @@ class UserModel {
     }
   }
   // delete user
-  async deleteUser(id: string): Promise<User> {
+  async destroy(id: string): Promise<User> {
     try {
       const connection = await db.connect()
       const sql = `DELETE from users WHERE id=($1) RETURNING id, email, user_name, first_name, last_name`
